@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>🌸 Return to Your Final Form 🌸</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Zen+Tokyo+Zoo&family=Orbitron:wght@500&display=swap');
+
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #f9e0ff, #ffe0f0, #e0f0ff);
+      font-family: 'Zen Tokyo Zoo', cursive;
+      color: #3b0a45;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      margin-top: 40px;
+      animation: pulse 2s infinite;
+      color: #e60073;
+      text-shadow: 2px 2px #fff;
+    }
+
+    .players {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    button {
+      font-family: 'Orbitron', sans-serif;
+      padding: 10px 20px;
+      font-size: 1em;
+      border-radius: 10px;
+      border: 2px solid #e60073;
+      background: #fff5fc;
+      color: #8e005d;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #ffcce5;
+      transform: scale(1.1);
+    }
+
+    #result {
+      margin-top: 30px;
+      font-size: 1.5em;
+      color: #3a003f;
+      text-shadow: 1px 1px #fff;
+    }
+
+    #submitted {
+      display: none;
+      margin-top: 20px;
+      font-size: 1.2em;
+      color: #00a8cc;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+    }
+
+    .petal {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: radial-gradient(circle at center, #ffb6d9 0%, #ffc0cb 70%);
+      border-radius: 50%;
+      opacity: 0.6;
+      animation: fall linear infinite;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🌸 The Path to Your Final Form 🌸</h1>
+  <p style="font-family: 'Orbitron', sans-serif;">Choose your destiny and seal your vote.</p>
+
+  <div class="players">
+    <button onclick="submitVote('Cole')">Cole</button>
+    <button onclick="submitVote('Zander')">Zander</button>
+    <button onclick="submitVote('Rohit')">Rohit</button>
+    <button onclick="submitVote('Kevin')">Kevin</button>
+  </div>
+
+  <div id="result"></div>
+  <div id="submitted">✨ Your fate is recorded. Await the others... ✨</div>
+
+  <script>
+    (function(){
+      const votedKey = "finalFormVote";
+      if (document.cookie.includes(votedKey)) {
+        document.querySelector(".players").style.display = 'none';
+        document.getElementById('submitted').style.display = 'block';
+      }
+
+      // Sakura petals
+      for (let i = 0; i < 25; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'petal';
+        petal.style.left = Math.random() * 100 + 'vw';
+        petal.style.animationDuration = 5 + Math.random() * 5 + 's';
+        petal.style.animationDelay = Math.random() * 5 + 's';
+        document.body.appendChild(petal);
+      }
+
+      window.submitVote = async function(name) {
+        if (document.cookie.includes(votedKey)) return;
+
+        const result = Math.random() < 0.5 ? '🌕 HEADS – Return to Final Form' : '🌑 TAILS – Remain in Chaos';
+        const ip = await fetch('https://ipapi.co/json/').then(r => r.json()).then(j => j.ip).catch(() => 'unknown');
+
+        document.getElementById('result').innerText = `${name}, your result: ${result}`;
+        document.getElementById('submitted').style.display = 'block';
+        document.querySelector(".players").style.display = 'none';
+        document.cookie = `${votedKey}=true; max-age=31536000; path=/`;
+
+        fetch("https://formspree.io/f/mldjzjnk", {
+          method: "POST",
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: name,
+            result: result,
+            ip: ip
+          })
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
