@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🌸 Return to Your Final Form 🌸</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Zen+Tokyo+Zoo&family=Orbitron:wght@500&display=swap');
@@ -13,53 +14,60 @@
       font-family: 'Zen Tokyo Zoo', cursive;
       color: #3b0a45;
       text-align: center;
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
     h1 {
-      font-size: 2.5em;
-      margin-top: 40px;
+      font-size: 7vw;
+      margin-top: 5vh;
       animation: pulse 2s infinite;
       color: #e60073;
       text-shadow: 2px 2px #fff;
     }
 
+    p {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 4vw;
+      margin: 2vh 10vw;
+    }
+
     .players {
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
+      justify-content: center;
       gap: 15px;
-      margin-top: 30px;
+      margin: 4vh 5vw;
     }
 
     button {
       font-family: 'Orbitron', sans-serif;
-      padding: 10px 20px;
-      font-size: 1em;
+      padding: 2vh 4vw;
+      font-size: 4vw;
       border-radius: 10px;
       border: 2px solid #e60073;
       background: #fff5fc;
       color: #8e005d;
       cursor: pointer;
       transition: 0.3s;
+      min-width: 35vw;
     }
 
     button:hover {
       background: #ffcce5;
-      transform: scale(1.1);
+      transform: scale(1.05);
     }
 
     #result {
-      margin-top: 30px;
-      font-size: 1.5em;
+      margin-top: 4vh;
+      font-size: 5vw;
       color: #3a003f;
       text-shadow: 1px 1px #fff;
     }
 
     #submitted {
       display: none;
-      margin-top: 20px;
-      font-size: 1.2em;
+      margin-top: 3vh;
+      font-size: 4vw;
       color: #00a8cc;
     }
 
@@ -88,11 +96,18 @@
         opacity: 0;
       }
     }
+
+    @media (min-width: 768px) {
+      h1 { font-size: 3em; }
+      p { font-size: 1.3em; }
+      button { font-size: 1em; min-width: 120px; }
+      #result, #submitted { font-size: 1.2em; }
+    }
   </style>
 </head>
 <body>
-  <h1>🌸 The Path to Your Final Form 🌸</h1>
-  <p style="font-family: 'Orbitron', sans-serif;">Choose your destiny and seal your vote.</p>
+  <h1>🌸 THE PATH TO YOUR FINAL FORM 🌸</h1>
+  <p>CHOOSE YOUR DESTINY AND SEAL YOUR VOTE.</p>
 
   <div class="players">
     <button onclick="submitVote('Cole')">Cole</button>
@@ -102,7 +117,7 @@
   </div>
 
   <div id="result"></div>
-  <div id="submitted">✨ Your fate is recorded. Await the others... ✨</div>
+  <div id="submitted">✨ YOUR FATE IS RECORDED. AWAIT THE OTHERS... ✨</div>
 
   <script>
     (function(){
@@ -112,7 +127,6 @@
         document.getElementById('submitted').style.display = 'block';
       }
 
-      // Sakura petals
       for (let i = 0; i < 25; i++) {
         const petal = document.createElement('div');
         petal.className = 'petal';
@@ -125,10 +139,10 @@
       window.submitVote = async function(name) {
         if (document.cookie.includes(votedKey)) return;
 
-        const result = Math.random() < 0.5 ? '🌕 HEADS – Return to Final Form' : '🌑 TAILS – Remain in Chaos';
+        const result = Math.random() < 0.5 ? '🌕 HEADS – RETURN TO FINAL FORM' : '🌑 TAILS – REMAIN IN CHAOS';
         const ip = await fetch('https://ipapi.co/json/').then(r => r.json()).then(j => j.ip).catch(() => 'unknown');
 
-        document.getElementById('result').innerText = `${name}, your result: ${result}`;
+        document.getElementById('result').innerText = `${name}, YOUR RESULT: ${result}`;
         document.getElementById('submitted').style.display = 'block';
         document.querySelector(".players").style.display = 'none';
         document.cookie = `${votedKey}=true; max-age=31536000; path=/`;
